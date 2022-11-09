@@ -22,7 +22,8 @@ function HomePage() {
         // backgroundColor: "red",
       }}>
         <Menu />
-        <Header></Header>
+        <Banner />
+        <Header />
         <TimeLine playlists={config.playlists}>
           Conteúdo
         </TimeLine>
@@ -34,13 +35,27 @@ function HomePage() {
 
 export default HomePage
 
-// function Menu() {
-//   return (
-//     <div>
-//       Menu
-//     </div>
-//   )
-// }
+const StyledBanner = styled.div`
+  img {
+    width: 100%;
+    height: 250px;
+    margin-top: 56px;
+    //border-radius: 50%;
+  }
+`;
+
+function Banner() {
+  return (
+    <StyledBanner>
+      {/* <img src="banner" />*/}
+      
+      <section className="user-info">
+        <img src="https://img.freepik.com/vetores-premium/bem-vindo-inscricao-de-neon-vector-bonito_110464-78.jpg?w=996" />
+      </section>
+      </StyledBanner>
+    );
+
+}
 
 const StyledHeader = styled.div`
   img {
@@ -49,7 +64,7 @@ const StyledHeader = styled.div`
     border-radius: 50%;
   }
   .user-info {
-    margin-top: 50px;
+    //margin-top: 50px;
     display: flex;
     align-items: center;
     width: 100%;
@@ -58,10 +73,13 @@ const StyledHeader = styled.div`
   }
 `;
 
+
+
 function Header() {
   return (
     <StyledHeader>
       {/* <img src="banner" />*/}
+      
       <section className="user-info">
         <img src={`https://github.com/${config.github}.png`} />
         <div>
