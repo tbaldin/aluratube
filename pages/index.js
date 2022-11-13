@@ -1,3 +1,4 @@
+import React from "react";
 import config from "../config.json";
 import styled from "styled-components";
 import { CSSReset } from "../src/components/CSSReset";
@@ -9,6 +10,7 @@ function HomePage() {
   const estiloDaHomePage = {
     //backgroundColor: "red" 
   };
+  const [valorDoFiltro, setValorDoFiltro] = React.useState("");
 
   //console.log(config.playlists);
 
@@ -21,10 +23,10 @@ function HomePage() {
         flex: 1,
         // backgroundColor: "red",
       }}>
-        <Menu />
-        <Banner />
-        <Header />
-        <TimeLine playlists={config.playlists}>
+        {/* Prop Drilling */}
+        <Menu valorDoFiltro={valorDoFiltro} setValorDoFiltro={setValorDoFiltro} />
+        
+        <TimeLine searchValue={valorDoFiltro} playlists={config.playlists}>
           Conteúdo
         </TimeLine>
       </div>
@@ -35,27 +37,20 @@ function HomePage() {
 
 export default HomePage
 
-const StyledBanner = styled.div`
-  img {
-    width: 100%;
-    height: 250px;
-    margin-top: 56px;
-    //border-radius: 50%;
-  }
-`;
 
-function Banner() {
-  return (
-    <StyledBanner>
-      {/* <img src="banner" />*/}
-      
-      <section className="user-info">
-        <img src="https://img.freepik.com/vetores-premium/bem-vindo-inscricao-de-neon-vector-bonito_110464-78.jpg?w=996" />
-      </section>
-      </StyledBanner>
-    );
 
-}
+// function Banner() {
+//   return (
+//     <StyledBanner>
+//       {/* <img src="banner" />*/}
+
+//       <section className="user-info">
+//         <img src="https://img.freepik.com/vetores-premium/bem-vindo-inscricao-de-neon-vector-bonito_110464-78.jpg?w=996" />
+//       </section>
+//     </StyledBanner>
+//   );
+
+// }
 
 const StyledHeader = styled.div`
   img {
@@ -73,13 +68,25 @@ const StyledHeader = styled.div`
   }
 `;
 
+const StyledBanner = styled.div`
+  background-color: blue;
+  /*background-image: url(${config.bg});*/
+  background-image: url(${({ bg }) => bg});
+  height: 230px;
+  /* img {
+    width: 100%;
+    height: 250px;
+    margin-top: 56px;
+    //border-radius: 50%;
+  } */
+`;
 
 
 function Header() {
   return (
     <StyledHeader>
-      {/* <img src="banner" />*/}
-      
+      <StyledBanner bg={config.bg} />
+
       <section className="user-info">
         <img src={`https://github.com/${config.github}.png`} />
         <div>
@@ -96,7 +103,7 @@ function Header() {
   )
 }
 
-function TimeLine(props) {
+function TimeLine({ searchValue, ...props }) {
   //console.log("dentro", props.playlists);
   const playlistNames = Object.keys(props.playlists);
   //for = retorno statement
@@ -105,22 +112,28 @@ function TimeLine(props) {
     <StyledTimeline>
       {playlistNames.map((playlistName) => {
         const videos = props.playlists[playlistName];
-        console.log(playlistName);
-        console.log(videos);
+        //console.log(playlistName);
+        //console.log(videos);
         return (
-          <section>
+          <section key={playlistName}>
             <h2>{playlistName}</h2>
             <div>
-              {videos.map((videos) => {
-                return (
-                  <a href={videos.url}>
-                    <img src={videos.thumb} />
-                    <span>
-                      {videos.title}
-                    </span>
-                  </a>
-                )
-              })}
+              {videos
+                .filter((video) => {
+                  const titleNormalized = video.title.toLowerCase();
+                  const searchValueNormalized = searchValue.toLowerCase();
+                  return titleNormalized.includes(searchValueNormalized)
+                })
+                .map((videos) => {
+                  return (
+                    <a key={videos.url} href={videos.url}>
+                      <img src={videos.thumb} />
+                      <span>
+                        {videos.title}
+                      </span>
+                    </a>
+                  )
+                })}
             </div>
           </section>
         )
