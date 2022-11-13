@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { CSSReset } from "../src/components/CSSReset";
 import Menu from "../src/components/Menu";
 import { StyledTimeline } from "../src/components/Timeline";
+import Head from "next/head";
 
 function HomePage() {
 
@@ -25,7 +26,7 @@ function HomePage() {
       }}>
         {/* Prop Drilling */}
         <Menu valorDoFiltro={valorDoFiltro} setValorDoFiltro={setValorDoFiltro} />
-        
+        <Header />
         <TimeLine searchValue={valorDoFiltro} playlists={config.playlists}>
           Conteúdo
         </TimeLine>
