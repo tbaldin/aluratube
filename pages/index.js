@@ -1,23 +1,17 @@
 import React from "react";
 import config from "../config.json";
 import styled from "styled-components";
-import { CSSReset } from "../src/components/CSSReset";
 import Menu from "../src/components/Menu";
 import { StyledTimeline } from "../src/components/Timeline";
 import Head from "next/head";
 
 function HomePage() {
-
-  const estiloDaHomePage = {
-    //backgroundColor: "red" 
-  };
   const [valorDoFiltro, setValorDoFiltro] = React.useState("");
 
   //console.log(config.playlists);
 
   return (
     <>
-      <CSSReset />
       <div style={{
         display: "flex",
         flexDirection: "column",
@@ -54,6 +48,7 @@ export default HomePage
 // }
 
 const StyledHeader = styled.div`
+  background-color: ${({ theme}) => theme.backgroundLevel1};
   img {
     width: 80px;
     height: 80px;
@@ -77,9 +72,7 @@ const StyledBanner = styled.div`
   /* img {
     width: 100%;
     height: 250px;
-    margin-top: 56px;
-    //border-radius: 50%;
-  } */
+    margin-top: 56px;*/
 `;
 
 
